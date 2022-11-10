@@ -6,6 +6,10 @@
 
 A terminal based tracker that uses Inquirer and MySQL to manage and store employee data.
 
+Demo:
+
+[Demo.webm](https://user-images.githubusercontent.com/104469447/200977801-7881f799-8634-4bc4-b983-7c30334766fb.webm)
+
 ## **Table of Contents**
 
 1. [Installation](#Installation)
