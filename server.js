@@ -52,6 +52,7 @@ function main() {
             name: "choice",
             choices: [
                 "Add New Employee",
+                "Update Employee Role",
                 "Delete Employee",
                 "View All Employees",
                 "Add New Role",
@@ -70,6 +71,9 @@ function main() {
                 break;
             case "Delete Employee":
                 deleteEmp();
+                break;
+            case "Update Employee Role":
+                updateEmpRole();
                 break;
             case "View All Employees":
                 viewAllEmployees();
@@ -137,6 +141,28 @@ function addNewEmp() {
     })
     return;
 }
+
+// Function to update employee
+function updateEmpRole() {
+    inquirer.prompt([
+        {
+            name: "employee_id",
+            type: "input",
+            message: "Enter employee id"
+        },
+        {
+            name: "role_id",
+            type: "input",
+            message: "Enter employee role id"
+        }
+    ]).then((answers) => {
+        connection.query(`UPDATE employee SET role_id =${answers.role_id} WHERE id=${answers.employee_id}`
+        )
+    })
+    console.log("Employee updated")
+    main();
+}
+
 
 // Function to delete and employee
 function deleteEmp() {
