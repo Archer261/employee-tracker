@@ -12,9 +12,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 
-
-
-
 console.log(`
         ███████╗███╗░░░███╗██████╗░██╗░░░░░░█████╗░██╗░░░██╗███████╗███████╗
         ██╔════╝████╗░████║██╔══██╗██║░░░░░██╔══██╗╚██╗░██╔╝██╔════╝██╔════╝
@@ -46,7 +43,7 @@ viewAllEmployees()
 // console.log(table);
 
 
-
+// Function to start main menu
 function main() {
     inquirer.prompt([
         {
@@ -103,6 +100,7 @@ function main() {
     })
 }
 
+// Fucntion to add a new employee
 function addNewEmp() {
     inquirer.prompt([
         {
@@ -140,11 +138,24 @@ function addNewEmp() {
     return;
 }
 
+// Function to delete and employee
 function deleteEmp() {
-
-    return;
+    inquirer.prompt([
+        {
+            type: "number",
+            name: "employee_id",
+            message: "Enter employee id to delete"
+        }
+    ]).then((answers) => {
+        connection.query(`DELETE FROM department WHERE id =  ${answers.employee_id}`)
+    }).then((err, res) => {
+        if (err) throw err;
+        console.log("Employee has been deleted");
+        main();
+    })
 }
 
+//Function to view all employees
 function viewAllEmployees() {
     const sql = `
     SELECT employee.first_name, 
@@ -165,6 +176,7 @@ function viewAllEmployees() {
     return;
 }
 
+//Function to add new role
 function addNewRole() {
     inquirer.prompt([
         {
@@ -194,16 +206,41 @@ function addNewRole() {
         })
     })
     return;
-
 }
 
+// Function to delete roles
 function deleteRole() {
+    inquirer.prompt([
+        {
+            type: "number",
+            name: "role_id",
+            message: "Enter role id to delete"
+        }
+    ]).then((answers) => {
+        connection.query(`DELETE FROM department WHERE id =  ${answers.employee_id}`)
+    }).then((err, res) => {
+        if (err) throw err;
+        console.log("Employee has been deleted");
+        main();
+    })
     return;
 }
 
+//Function to view all roles
 function viewAllRoles() {
+    const sql = `SELECT role.title, role.salary, department.name FROM role LEFT JOIN department ON role.department_id = department.id`
+    connection.query(
+        sql,
+        (err, rows) => {
+            if (err) throw err;
+            console.table(rows);
+            main();
+        }
+    );
     return;
 }
+
+// Function to add new department
 function addNewDept() {
     inquirer.prompt([
         {
@@ -222,9 +259,26 @@ function addNewDept() {
     })
     return;
 }
+
+// Function to delete department
 function deleteDept() {
-    return;
+    inquirer.prompt([
+        {
+            type: "number",
+            name: "department_id",
+            message: "Enter department id to delete"
+        }
+    ]).then((answers) => {
+        connection.query(`DELETE FROM department WHERE id = ${answers.department_id}`)
+    }).then((err, res) => {
+        if (err) throw err;
+        console.log("Department has been deleted");
+        main();
+    })
+
 }
+
+// Function to view all departments
 function viewAllDept() {
     const sql = `SELECT * FROM department`
     connection.query(sql, (err, rows) => {
@@ -232,7 +286,7 @@ function viewAllDept() {
         console.table(rows);
         main();
     });
-    return;
+
 }
 
 
